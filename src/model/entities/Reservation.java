@@ -48,9 +48,18 @@ public class Reservation {
 		// converte essa diferença para dias
 	}
 	
-	public void updateDate(Date checkin, Date checkout) {
+	public String updateDate(Date checkin, Date checkout) {
+		
+		Date now = new Date();
+		if (checkin.before(now) || checkout.before(now)) {
+		    return "Reservation dates for update must be future dates";
+		} 
+		if (checkin.after(checkout)) {
+			return "Check-out date must be after check-in date";
+		}
 		this.checkin = checkin;
 		this.checkout = checkout;
+		return null;
 	}
 	
 	@Override
