@@ -12,16 +12,21 @@ public class Reservation {
 	private Date checkin;
 	private Date checkout;
 	
+	Date now = new Date();
+	
 	//é static para que não seja instanciado um novo SimpleDateFormat 
 	//para cada objeto Reservation que a aplicação tiver
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	
 	//Constructor
-	public Reservation(Integer roomNumber, Date checkin, Date checkout) throws DomainException{
+	public Reservation(Integer roomNumber, Date checkin, Date checkout) {
 		
 		if (checkin.after(checkout)) {
 			throw new DomainException("Check-out date must be after check-in date");
+		}
+		if (checkin.before(now) || checkout.before(now)) {
+		    throw new DomainException("Reservation dates must be future dates");
 		}
 		
 		this.roomNumber = roomNumber;
@@ -54,9 +59,7 @@ public class Reservation {
 		// converte essa diferença para dias
 	}
 	
-	public void updateDate(Date checkin, Date checkout) throws DomainException{
-		
-		Date now = new Date();
+	public void updateDate(Date checkin, Date checkout) {
 		
 		if (checkin.before(now) || checkout.before(now)) {
 		    throw new DomainException("Reservation dates for update must be future dates");
@@ -70,6 +73,14 @@ public class Reservation {
 	
 	@Override
 	public String toString() {
+	    
+		String duration;
+	    if (duration() > 1) {
+	        duration = duration() + " nights";
+	    } else {
+	        duration = duration() + " night";
+	    }
+	    
 		return "Room "
 				+ roomNumber
 				+ ", chekin: "
@@ -77,7 +88,8 @@ public class Reservation {
 				+ ", chekout: "
 				+ sdf.format(checkout)
 				+ ", "
-				+ duration()
-				+ " nights";
+				+duration;
+				
+				
 	}
 }
