@@ -74,11 +74,11 @@ public class Reservation {
 	@Override
 	public String toString() {
 	    
-		String duration;
+		String durationString;
 	    if (duration() > 1) {
-	        duration = duration() + " nights";
+	        durationString = duration() + " nights";
 	    } else {
-	        duration = duration() + " night";
+	        durationString = duration() + " night";
 	    }
 	    
 		return "Room "
@@ -88,7 +88,7 @@ public class Reservation {
 				+ ", chekout: "
 				+ sdf.format(checkout)
 				+ ", "
-				+duration;
+				+durationString;
 				
 				
 	}
